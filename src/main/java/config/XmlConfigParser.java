@@ -13,6 +13,10 @@ import core.member.IMember;
  *
  */
 public class XmlConfigParser implements IConfigParser {
+	
+	public XmlConfigParser() {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void initialize() {
