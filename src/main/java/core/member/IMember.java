@@ -33,4 +33,16 @@ public interface IMember {
 	 */
 	public void setAddress(String address);
 	
+	/**
+	 * 
+	 * @return the score associated to the member
+	 */
+	public Integer getScore();
+	
+	/**
+	 * 
+	 * @param score the new score to associate to the member
+	 */
+	public void setScore(Integer score);
+	
 }
