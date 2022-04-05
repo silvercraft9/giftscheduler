@@ -5,16 +5,29 @@ import java.util.ArrayList;
 import core.association.IAssociation;
 import core.exclusion.IExclusionSet;
 import core.member.IMember;
+import core.member.IMemberCollection;
 
 public interface IPlan {
 
 	/**
 	 * 
-	 * @param participant the list of participants to the distribution plan
-	 * @param exclusions the list of exclusions to consider for the distribution plan
+	 * @param member the potential gifter
+	 * @return the list of potential receivers for the member
+	 */
+	public ArrayList<IMember> getAvailableReceivers(IMember member);
+	
+	/**
+	 * 
+	 * @param member the potential receiver
+	 * @return the list of potential gifters for the member
+	 */
+	public ArrayList<IMember> getAvailableGifters(IMember member);
+	
+	/**
+	 * 
 	 * @return a distribution plan considering the exclusion set
 	 */
-	public ArrayList<IAssociation> generate(ArrayList<IMember> participant, IExclusionSet exclusions);
+	public ArrayList<IAssociation> generate();
 	
 	/**
 	 * 

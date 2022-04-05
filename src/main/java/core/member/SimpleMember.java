@@ -54,5 +54,9 @@ public class SimpleMember implements IMember {
 		return (this.name.equalsIgnoreCase(member.getName()) && this.address.equalsIgnoreCase(member.getAddress()));
 	}
 
+	public int compareTo(IMember o) {
+		int compareScore = ((IMember)o).getScore();
+		return this.score - compareScore;
+	}
 	
 }
