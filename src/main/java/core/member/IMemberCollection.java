@@ -12,6 +12,13 @@ import java.util.ArrayList;
 public interface IMemberCollection {
 	
 	/**
+	 * 
+	 * @param member the member to check in the collection
+	 * @return if the member belongs to the collection
+	 */
+	public boolean contains(IMember member);
+	
+	/**
 	 * If the member does not belongs to the collection, add that member to the collection
 	 * @param member the member to add
 	 */

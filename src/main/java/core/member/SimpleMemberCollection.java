@@ -22,8 +22,14 @@ public class SimpleMemberCollection implements IMemberCollection {
 		this.collection = collection;
 	}
 	
+	public boolean contains(IMember member) {
+		return this.collection.contains(member);
+	}
+	
 	public void addMember(IMember member) {
-		this.collection.add(member);
+		if(!this.contains(member)) {
+			this.collection.add(member);
+		}
 	}
 
 	public void deleteMember(IMember member) {
@@ -61,7 +67,7 @@ public class SimpleMemberCollection implements IMemberCollection {
 		ArrayList<IMember> sortedAsc = this.getSortAscByScore();
 		ArrayList<IMember> sortedDesc = new ArrayList<IMember>();
 		int size = sortedAsc.size();
-		for(int i = size - 1; i > 0; i--) {
+		for(int i = size - 1; i >= 0; i--) {
 			IMember member = sortedAsc.get(i);
 			sortedDesc.add(member);
 		}
@@ -89,13 +95,11 @@ public class SimpleMemberCollection implements IMemberCollection {
 			IMember current = this.collection.get(i);
 			int currScore = current.getScore();
 			int maxScore = maxMember.getScore();
-			if(currScore < maxScore) {
+			if(currScore > maxScore) {
 				maxMember = current;
 			}
 		}
 		return maxMember;
 	}
-
-	
 
 }
