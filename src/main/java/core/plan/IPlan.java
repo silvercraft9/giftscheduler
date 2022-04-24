@@ -3,9 +3,7 @@ package core.plan;
 import java.util.ArrayList;
 
 import core.association.IAssociation;
-import core.exclusion.IExclusionSet;
 import core.member.IMember;
-import core.member.IMemberCollection;
 
 public interface IPlan {
 

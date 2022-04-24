@@ -73,5 +73,16 @@ public class ArrayUtils {
 		}
 		return res;
 	}
+	
+	public static String memberArrayToString(ArrayList<IMember> members) {
+		String res = "[Members: ";
+		int nbMembers = members.size();
+		for(int i = 0; i < nbMembers; i++) {
+			IMember curr = members.get(i);
+			res += "{" + curr.getName() + "_" + curr.getAddress() + "}";
+		}
+		res += " ]";
+		return res;
+	}
 
 }

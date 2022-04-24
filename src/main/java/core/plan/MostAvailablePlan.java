@@ -33,13 +33,29 @@ public class MostAvailablePlan implements IPlan {
 	}
 		
 	public ArrayList<IMember> getAvailableReceivers(IMember member) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<IMember> candidates = this.collection.getOtherMembers(member);
+		ArrayList<IMember> exclRcvrs = this.exclusions.getExcludedReceivers(member);
+		int nbExcl = exclRcvrs.size();
+		for(int i = 0; i < nbExcl; i++) {
+			IMember exRcvr = exclRcvrs.get(i);
+			if(candidates.contains(exRcvr)) {
+				candidates.remove(exRcvr);
+			}
+		}
+		return candidates;
 	}
 
 	public ArrayList<IMember> getAvailableGifters(IMember member) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<IMember> candidates = this.collection.getOtherMembers(member);
+		ArrayList<IMember> exclGftrs = this.exclusions.getExcludedGifters(member);
+		int nbExcl = exclGftrs.size();
+		for(int i = 0; i < nbExcl; i++) {
+			IMember exGftr = exclGftrs.get(i);
+			if(candidates.contains(exGftr)) {
+				candidates.remove(exGftr);
+			}
+		}
+		return candidates;
 	}
 
 	public ArrayList<IAssociation> generate() {
