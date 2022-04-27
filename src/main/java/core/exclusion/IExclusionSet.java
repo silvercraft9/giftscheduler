@@ -8,6 +8,12 @@ public interface IExclusionSet {
 	
 	/**
 	 * 
+	 * @param exclusion the exclusion to add to the set
+	 */
+	public void addExclusion(IExclusion exclusion);
+	
+	/**
+	 * 
 	 * @param gifter the member offering a gift
 	 * @return the number of excluded receivers for the given member
 	 */

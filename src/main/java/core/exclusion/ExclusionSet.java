@@ -75,4 +75,15 @@ public class ExclusionSet implements IExclusionSet {
 		return res;
 	}
 
+
+	public void addExclusion(IExclusion exclusion) {
+		IMember gifter = exclusion.getGifter();
+		IMember receiver = exclusion.getReceiver();
+		ArrayList<IMember> receivers = this.forbidden.get(gifter);
+		if(!receivers.contains(receiver)) {
+			receivers.add(receiver);
+		}
+		this.forbidden.put(gifter, receivers);
+	}
+
 }

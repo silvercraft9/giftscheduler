@@ -23,9 +23,9 @@ public interface IPlan {
 	
 	/**
 	 * 
-	 * @return a distribution plan considering the exclusion set
+	 * this method generates a set of associations including every member in the collection
 	 */
-	public ArrayList<IAssociation> generate();
+	public void generate();
 	
 	/**
 	 * 

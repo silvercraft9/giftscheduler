@@ -9,9 +9,12 @@ import java.util.Random;
 
 import core.association.Association;
 import core.association.IAssociation;
+import core.exclusion.Exclusion;
+import core.exclusion.IExclusion;
 import core.exclusion.IExclusionSet;
 import core.member.IMember;
 import core.member.IMemberCollection;
+import core.member.SimpleMemberCollection;
 import core.utils.ArrayUtils;
 
 /**
@@ -58,9 +61,59 @@ public class MostAvailablePlan implements IPlan {
 		return candidates;
 	}
 
-	public ArrayList<IAssociation> generate() {
-		// TODO Auto-generated method stub
-		return null;
+	public void generate() {
+	
+		ArrayList<IAssociation> assocs = new ArrayList<IAssociation>();
+		
+		HashMap<IMember, ArrayList<IMember>> rcvrsMap = new HashMap<IMember, ArrayList<IMember>>();
+		
+		ArrayList<IMember> members = this.collection.getMembers();
+		int nbMember = members.size();
+		for(int i = 0; i < nbMember; i++) { //affectation of the number of receivers as the score for each member
+			IMember member = members.get(i);
+			ArrayList<IMember> options = getAvailableReceivers(member);
+			rcvrsMap.put(member, options);
+			int score = options.size();
+			member.setScore(score);
+		}
+		this.collection = new SimpleMemberCollection(members); //update collection members with scored members
+		
+		int j = 0;
+		ArrayList<IMember> scoredMembers = this.collection.getSortAscByScore();
+		int nbScMembers = scoredMembers.size();
+		
+		ArrayList<IMember> candidates = new ArrayList<IMember>();
+		ArrayList<Integer> weights = new ArrayList<Integer>();
+		
+		while(j < nbScMembers) {
+			IMember member = scoredMembers.get(j);
+			ArrayList<IMember> options = rcvrsMap.get(member);
+			
+			int nbOptions = options.size();
+			for(int k = 0; k < nbOptions; k++) {
+				IMember candidate = options.get(k);
+				int weight = this.getAvailableGifters(candidate).size(); //we want to select a candidate that is a limited choice for another gifter
+				candidates.add(candidate);
+				weights.add(weight);
+			}
+			
+			if(candidates.size() == 0) {
+				IAssociation assoc = assocs.get(j - 1);
+				IExclusion excl = new Exclusion(assoc.getGifter(), assoc.getReceiver());
+				this.exclusions.addExclusion(excl);
+				assocs.remove(j - 1);
+			} else {
+				IMember selected = candidates.get(ArrayUtils.maxIndex(weights));
+				IAssociation assoc = new Association(member, selected);
+				//TODO to complete, there is an issue here
+				assocs.add(assoc);
+				j++;
+				
+			}
+			
+		}
+		
+		
 	}
 	
 	public boolean validate() {

@@ -45,6 +45,10 @@ public class SimpleMemberCollection implements IMemberCollection {
 		this.collection = updated;
 	}
 	
+	public ArrayList<IMember> getMembers() {
+		return this.collection;
+	}
+	
 	public ArrayList<IMember> getOtherMembers(IMember member) {
 		ArrayList<IMember> others = new ArrayList<IMember>();
 		int size = this.collection.size();
@@ -101,5 +105,7 @@ public class SimpleMemberCollection implements IMemberCollection {
 		}
 		return maxMember;
 	}
+
+	
 
 }

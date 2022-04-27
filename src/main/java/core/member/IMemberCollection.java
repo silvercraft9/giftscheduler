@@ -32,6 +32,12 @@ public interface IMemberCollection {
 
 	/**
 	 * 
+	 * @return the list of participants
+	 */
+	public ArrayList<IMember> getMembers();
+	
+	/**
+	 * 
 	 * @param member the member to exclude from the list of participants
 	 * @return the list of participants except an excluded one
 	 */
