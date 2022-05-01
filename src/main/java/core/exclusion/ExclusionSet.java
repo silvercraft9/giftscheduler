@@ -58,7 +58,11 @@ public class ExclusionSet implements IExclusionSet {
 	}
 
 	public ArrayList<IMember> getExcludedReceivers(IMember gifter) {
-		return this.forbidden.get(gifter);
+		ArrayList<IMember> res = new ArrayList<IMember>();
+		if(this.forbidden.containsKey(gifter)) {
+			res = this.forbidden.get(gifter); 
+		}
+		return res; 
 	}
 
 	public ArrayList<IMember> getExcludedGifters(IMember receiver) {

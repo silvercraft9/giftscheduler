@@ -31,7 +31,6 @@ public class RandomPlan implements IPlan {
 		this.associations = new ArrayList<IAssociation>();
 	}
 
-	@Override
 	public ArrayList<IMember> getAvailableReceivers(IMember member) {
 		ArrayList<IMember> candidates = this.collection.getOtherMembers(member);
 		ArrayList<IMember> exclRcvrs = this.exclusions.getExcludedReceivers(member);
@@ -45,7 +44,6 @@ public class RandomPlan implements IPlan {
 		return candidates;
 	}
 
-	@Override
 	public ArrayList<IMember> getAvailableGifters(IMember member) {
 		ArrayList<IMember> candidates = this.collection.getOtherMembers(member);
 		ArrayList<IMember> exclGftrs = this.exclusions.getExcludedGifters(member);
@@ -59,44 +57,71 @@ public class RandomPlan implements IPlan {
 		return candidates;
 	}
 
-	@Override
 	public void generate() {
 		ArrayList<IMember> gifters = ArrayUtils.duplicateList(this.collection.getMembers());
-		ArrayList<IMember> receivers = ArrayUtils.duplicateList(this.collection.getMembers());
+		ArrayList<IMember> receivers = new ArrayList<IMember>();
 		Random rand = new Random();
 		
-		int i = 0;
-		while(!gifters.isEmpty()) {
+		int nbGifters = gifters.size();
+		
+		for(int i = 0; i < nbGifters; i++) {
+			System.out.println("Gifters : " + ArrayUtils.memberArrayToString(gifters));
+			System.out.println("Affected receivers : " + ArrayUtils.memberArrayToString(receivers));
 			
-			int gifterIndex =  rand.nextInt(gifters.size());
-			IMember gifter = gifters.get(gifterIndex);
-			
+			IMember gifter = gifters.get(i);
+			System.out.println("==================================================");
+			System.out.println("Generating an association for member " + gifter.getName() + "...");
 			ArrayList<IMember> candidates = this.getAvailableReceivers(gifter);
+			System.out.println("Candidates : " + ArrayUtils.memberArrayToString(candidates));
+			int nbCands = candidates.size();
 			boolean validReceiver = false;
 			IMember candidate = null;
 			
 			while(!validReceiver) {
 				
-				int receiverIndex = rand.nextInt(receivers.size());
-				candidate = receivers.get(receiverIndex);
-				if(candidates.contains(candidate)) {
+				int receiverIndex = rand.nextInt(nbCands);
+				candidate = candidates.get(receiverIndex);
+				System.out.println("--> Trying candidate " + candidate.getName());
+				if(!receivers.contains(candidate)) {
 					validReceiver = true;
+				} else {
+					System.out.println("--> Invalid candidate, trying another one");
 				}
 			}
-			
+			System.out.println("--> Valid candidate found, adding association [" + gifter.getName() + " offers to " + candidate.getName() + "]");
 			IAssociation assoc = new Association(gifter, candidate);
 			this.associations.add(assoc);
-			gifters.remove(gifter);
-			receivers.remove(candidate);
+			receivers.add(candidate);
+			
 			
 		}
+		System.out.println("All associations found, plan generated successfully!");
 		
 	}
 
-	@Override
 	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
+		ArrayList<IAssociation> assocs = this.associations;
+		int nbAssocs = assocs.size();
+		
+		ArrayList<IMember> gifters = new ArrayList<IMember>();
+		ArrayList<IMember> receivers = new ArrayList<IMember>();
+		
+		for(int i = 0; i < nbAssocs; i++) {
+			IAssociation assoc = assocs.get(i);
+			IMember gifter = assoc.getGifter();
+			IMember receiver = assoc.getReceiver();
+			
+			if(!gifters.contains(gifter)) {
+				gifters.add(gifter);
+			}
+			
+			if(!receivers.contains(receiver)) {
+				receivers.add(receiver);
+			}
+		}
+		
+		//A plan is valid if every member is both a gifter and a receiver
+		return gifters.size() == this.collection.getMembers().size() && receivers.size() == gifters.size(); 
 	}
 
 }
