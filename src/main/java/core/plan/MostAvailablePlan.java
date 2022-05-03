@@ -62,63 +62,84 @@ public class MostAvailablePlan implements IPlan {
 	}
 
 	public void generate() {
-	
-		ArrayList<IAssociation> assocs = new ArrayList<IAssociation>();
 		
-		HashMap<IMember, ArrayList<IMember>> rcvrsMap = new HashMap<IMember, ArrayList<IMember>>();
+		ArrayList<IMember> gifters = ArrayUtils.duplicateList(this.collection.getMembers());
+		ArrayList<IMember> scoredGifters = new ArrayList<IMember>();
+		int nbGifters = gifters.size();
 		
-		ArrayList<IMember> members = this.collection.getMembers();
-		int nbMember = members.size();
-		for(int i = 0; i < nbMember; i++) { //affectation of the number of receivers as the score for each member
-			IMember member = members.get(i);
-			ArrayList<IMember> options = getAvailableReceivers(member);
-			rcvrsMap.put(member, options);
-			int score = options.size();
-			member.setScore(score);
+		for(int j = 0; j < nbGifters; j++) {
+			IMember gifter = gifters.get(j);
+			int score = this.getAvailableReceivers(gifter).size();
+			gifter.setScore(score);
+			scoredGifters.add(gifter);
 		}
-		this.collection = new SimpleMemberCollection(members); //update collection members with scored members
 		
-		int j = 0;
-		ArrayList<IMember> scoredMembers = this.collection.getSortAscByScore();
-		int nbScMembers = scoredMembers.size();
+		this.collection.setMembers(scoredGifters);
+		ArrayList<IMember> sortedGifters = this.collection.getSortAscByScore();
 		
-		ArrayList<IMember> candidates = new ArrayList<IMember>();
-		ArrayList<Integer> weights = new ArrayList<Integer>();
+		ArrayList<IMember> receivers = new ArrayList<IMember>();
+		Random rand = new Random();
 		
-		while(j < nbScMembers) {
-			IMember member = scoredMembers.get(j);
-			ArrayList<IMember> options = rcvrsMap.get(member);
+		
+		for(int i = 0; i < nbGifters; i++) {
+			System.out.println("Gifters : " + ArrayUtils.memberArrayToString(gifters));
+			System.out.println("Affected receivers : " + ArrayUtils.memberArrayToString(receivers));
 			
-			int nbOptions = options.size();
-			for(int k = 0; k < nbOptions; k++) {
-				IMember candidate = options.get(k);
-				int weight = this.getAvailableGifters(candidate).size(); //we want to select a candidate that is a limited choice for another gifter
-				candidates.add(candidate);
-				weights.add(weight);
-			}
+			IMember gifter = sortedGifters.get(i);
+			System.out.println("==================================================");
+			System.out.println("Generating an association for member " + gifter.getName() + "...");
+			ArrayList<IMember> candidates = this.getAvailableReceivers(gifter);
+			System.out.println("Candidates : " + ArrayUtils.memberArrayToString(candidates));
+			int nbCands = candidates.size();
+			boolean validReceiver = false;
+			IMember candidate = null;
 			
-			if(candidates.size() == 0) {
-				IAssociation assoc = assocs.get(j - 1);
-				IExclusion excl = new Exclusion(assoc.getGifter(), assoc.getReceiver());
-				this.exclusions.addExclusion(excl);
-				assocs.remove(j - 1);
-			} else {
-				IMember selected = candidates.get(ArrayUtils.maxIndex(weights));
-				IAssociation assoc = new Association(member, selected);
-				//TODO to complete, there is an issue here
-				assocs.add(assoc);
-				j++;
+			while(!validReceiver) {
 				
+				int receiverIndex = rand.nextInt(nbCands);
+				candidate = candidates.get(receiverIndex);
+				System.out.println("--> Trying candidate " + candidate.getName());
+				if(!receivers.contains(candidate)) {
+					validReceiver = true;
+				} else {
+					System.out.println("--> Invalid candidate, trying another one");
+				}
 			}
+			System.out.println("--> Valid candidate found, adding association [" + gifter.getName() + " offers to " + candidate.getName() + "]");
+			IAssociation assoc = new Association(gifter, candidate);
+			this.associations.add(assoc);
+			receivers.add(candidate);
+			
 			
 		}
-		
+		System.out.println("All associations found, plan generated successfully!");
+			
 		
 	}
 	
 	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
+		ArrayList<IAssociation> assocs = this.associations;
+		int nbAssocs = assocs.size();
+		
+		ArrayList<IMember> gifters = new ArrayList<IMember>();
+		ArrayList<IMember> receivers = new ArrayList<IMember>();
+		
+		for(int i = 0; i < nbAssocs; i++) {
+			IAssociation assoc = assocs.get(i);
+			IMember gifter = assoc.getGifter();
+			IMember receiver = assoc.getReceiver();
+			
+			if(!gifters.contains(gifter)) {
+				gifters.add(gifter);
+			}
+			
+			if(!receivers.contains(receiver)) {
+				receivers.add(receiver);
+			}
+		}
+		
+		//A plan is valid if every member is both a gifter and a receiver
+		return gifters.size() == this.collection.getMembers().size() && receivers.size() == gifters.size(); 
 	}
 
 }

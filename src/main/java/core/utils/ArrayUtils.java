@@ -79,7 +79,7 @@ public class ArrayUtils {
 		int nbMembers = members.size();
 		for(int i = 0; i < nbMembers; i++) {
 			IMember curr = members.get(i);
-			res += "{" + curr.getName() + "_" + curr.getAddress() + "}";
+			res += "{" + curr.getName() + "_" + curr.getAddress() + "_" + curr.getScore() + "}";
 		}
 		res += " ]";
 		return res;

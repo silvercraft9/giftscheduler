@@ -26,6 +26,7 @@ public class MostAvailablePlanTest {
 	private IMember charlie;
 	private IMember daniel;
 	private IMember edgar;
+	private IMember francine;
 	private IMemberCollection collection;
 	private IExclusionSet exclusions;
 	private IPlan plan;
@@ -36,11 +37,13 @@ public class MostAvailablePlanTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		alice = new SimpleMember("alice", "alice@domain.com", 1);
-		bob = new SimpleMember("bob", "bob@domain.com", 2);
-		charlie = new SimpleMember("charlie", "charlie@domain.com", 2);
-		daniel = new SimpleMember("daniel", "daniel@domain.com", 4);
-		edgar = new SimpleMember("edgar", "edgar@domain.com", 3);
+		alice = new SimpleMember("alice", "alice@domain.com", 0);
+		bob = new SimpleMember("bob", "bob@domain.com", 0);
+		charlie = new SimpleMember("charlie", "charlie@domain.com", 0);
+		daniel = new SimpleMember("daniel", "daniel@domain.com", 0);
+		edgar = new SimpleMember("edgar", "edgar@domain.com", 0);
+		francine = new SimpleMember("francine", "francine@domain.com", 0);
+		
 		
 		
 		collection = new SimpleMemberCollection();
@@ -49,6 +52,7 @@ public class MostAvailablePlanTest {
 		collection.addMember(charlie);
 		collection.addMember(daniel);
 		collection.addMember(edgar);
+		collection.addMember(francine);
 		
 		IExclusion excl1 = new Exclusion(bob, alice);
 		IExclusion excl2 = new Exclusion(daniel, bob);
@@ -73,6 +77,7 @@ public class MostAvailablePlanTest {
 		expectedAliceList.add(bob);
 		expectedAliceList.add(charlie);
 		expectedAliceList.add(daniel);
+		expectedAliceList.add(francine);
 		
 		ArrayList<IMember> actualAliceList = this.plan.getAvailableReceivers(alice);
 		
@@ -85,6 +90,7 @@ public class MostAvailablePlanTest {
 		expectedBobList.add(charlie);
 		expectedBobList.add(daniel);
 		expectedBobList.add(edgar);
+		expectedBobList.add(francine);
 		
 		ArrayList<IMember> actualBobList = this.plan.getAvailableReceivers(bob);
 		
@@ -96,6 +102,7 @@ public class MostAvailablePlanTest {
 		ArrayList<IMember> expectedDanielList = new ArrayList<IMember>();
 		expectedDanielList.add(alice);
 		expectedDanielList.add(charlie);
+		expectedDanielList.add(francine);
 		
 		ArrayList<IMember> actualDanielList = this.plan.getAvailableReceivers(daniel);
 		
@@ -110,8 +117,45 @@ public class MostAvailablePlanTest {
 	 */
 	@Test
 	public final void testGetAvailableGifters() {
-		fail("Not yet implemented");
-				
+		ArrayList<IMember> expectedAliceList = new ArrayList<IMember>();
+		expectedAliceList.add(charlie);
+		expectedAliceList.add(daniel);
+		expectedAliceList.add(edgar);
+		expectedAliceList.add(francine);
+		
+		ArrayList<IMember> actualAliceList = this.plan.getAvailableGifters(alice);
+		
+		String expectedAlice = ArrayUtils.memberArrayToString(expectedAliceList);
+		String actualAlice = ArrayUtils.memberArrayToString(actualAliceList);
+		
+		assertTrue(expectedAlice.equalsIgnoreCase(actualAlice));
+		
+		ArrayList<IMember> expectedBobList = new ArrayList<IMember>();
+		expectedBobList.add(alice);
+		expectedBobList.add(charlie);
+		expectedBobList.add(edgar);
+		expectedBobList.add(francine);
+		
+		ArrayList<IMember> actualBobList = this.plan.getAvailableGifters(bob);
+		
+		String expectedBob = ArrayUtils.memberArrayToString(expectedBobList);
+		String actualBob = ArrayUtils.memberArrayToString(actualBobList);
+		
+		assertTrue(expectedBob.equalsIgnoreCase(actualBob));
+		
+		ArrayList<IMember> expectedDanielList = new ArrayList<IMember>();
+		expectedDanielList.add(alice);
+		expectedDanielList.add(bob);
+		expectedDanielList.add(charlie);
+		expectedDanielList.add(edgar);
+		expectedDanielList.add(francine);
+		
+		ArrayList<IMember> actualDanielList = this.plan.getAvailableGifters(daniel);
+		
+		String expectedDaniel = ArrayUtils.memberArrayToString(expectedDanielList);
+		String actualDaniel = ArrayUtils.memberArrayToString(actualDanielList);
+		
+		assertTrue(expectedDaniel.equalsIgnoreCase(actualDaniel));	
 	}
 
 	/**
@@ -119,7 +163,7 @@ public class MostAvailablePlanTest {
 	 */
 	@Test
 	public final void testGenerate() {
-		fail("Not yet implemented");
+		this.plan.generate();
 	}
 
 	/**
@@ -127,7 +171,13 @@ public class MostAvailablePlanTest {
 	 */
 	@Test
 	public final void testValidate() {
-		fail("Not yet implemented");
+		//this.plan.generate();
+		//boolean valid1 = this.plan.validate();
+		//assertTrue(valid1);
+				
+		//this.plan.generate();
+		//boolean valid2 = this.plan.validate();
+		//assertTrue(valid2);
 	}
 
 }

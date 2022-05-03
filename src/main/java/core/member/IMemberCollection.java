@@ -38,6 +38,12 @@ public interface IMemberCollection {
 	
 	/**
 	 * 
+	 * @param members the list of members to set for the collection
+	 */
+	public void setMembers(ArrayList<IMember> members);
+	
+	/**
+	 * 
 	 * @param member the member to exclude from the list of participants
 	 * @return the list of participants except an excluded one
 	 */
