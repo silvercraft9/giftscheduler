@@ -171,6 +171,7 @@ public class RandomPlanTest {
 	@Test
 	public final void testGenerate() {
 		this.plan.generate();
+		System.out.println(this.plan.toString());
 	}
 
 	/**
@@ -178,13 +179,15 @@ public class RandomPlanTest {
 	 */
 	@Test
 	public final void testValidate() {
-		//this.plan.generate();
-		//boolean valid1 = this.plan.validate();
-		//assertTrue(valid1);
+		this.plan.generate();
+		boolean valid1 = this.plan.validate();
+		assertTrue(valid1);
+		System.out.println(this.plan.toString());
 		
-		//this.plan.generate();
-		//boolean valid2 = this.plan.validate();
-		//assertTrue(valid2);
+		this.plan.generate();
+		boolean valid2 = this.plan.validate();
+		assertTrue(valid2);
+		System.out.println(this.plan.toString());
 	}
 
 }

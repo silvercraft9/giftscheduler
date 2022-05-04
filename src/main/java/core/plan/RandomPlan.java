@@ -65,14 +65,14 @@ public class RandomPlan implements IPlan {
 		int nbGifters = gifters.size();
 		
 		for(int i = 0; i < nbGifters; i++) {
-			System.out.println("Gifters : " + ArrayUtils.memberArrayToString(gifters));
-			System.out.println("Affected receivers : " + ArrayUtils.memberArrayToString(receivers));
+			//System.out.println("Gifters : " + ArrayUtils.memberArrayToString(gifters));
+			//System.out.println("Affected receivers : " + ArrayUtils.memberArrayToString(receivers));
 			
 			IMember gifter = gifters.get(i);
-			System.out.println("==================================================");
-			System.out.println("Generating an association for member " + gifter.getName() + "...");
+			//System.out.println("==================================================");
+			//System.out.println("Generating an association for member " + gifter.getName() + "...");
 			ArrayList<IMember> candidates = this.getAvailableReceivers(gifter);
-			System.out.println("Candidates : " + ArrayUtils.memberArrayToString(candidates));
+			//System.out.println("Candidates : " + ArrayUtils.memberArrayToString(candidates));
 			int nbCands = candidates.size();
 			boolean validReceiver = false;
 			IMember candidate = null;
@@ -81,22 +81,19 @@ public class RandomPlan implements IPlan {
 				
 				int receiverIndex = rand.nextInt(nbCands);
 				candidate = candidates.get(receiverIndex);
-				System.out.println("--> Trying candidate " + candidate.getName());
+				//System.out.println("--> Trying candidate " + candidate.getName());
 				if(!receivers.contains(candidate)) {
 					validReceiver = true;
-				} else {
-					System.out.println("--> Invalid candidate, trying another one");
-				}
+				} //else {
+					//System.out.println("--> Invalid candidate, trying another one");
+				//}
 			}
-			System.out.println("--> Valid candidate found, adding association [" + gifter.getName() + " offers to " + candidate.getName() + "]");
+			//System.out.println("--> Valid candidate found, adding association [" + gifter.getName() + " offers to " + candidate.getName() + "]");
 			IAssociation assoc = new Association(gifter, candidate);
 			this.associations.add(assoc);
 			receivers.add(candidate);
-			
-			
 		}
-		System.out.println("All associations found, plan generated successfully!");
-		
+		//System.out.println("All associations found, plan generated successfully!");
 	}
 
 	public boolean validate() {
@@ -124,4 +121,17 @@ public class RandomPlan implements IPlan {
 		return gifters.size() == this.collection.getMembers().size() && receivers.size() == gifters.size(); 
 	}
 
+	@Override
+	public String toString() {
+		String res = "Plan (Full Random strategy) : " + this.event + "\n";
+		ArrayList<IAssociation> assocs = this.associations;
+		int nbAssocs = assocs.size();
+		for(int i = 0; i < nbAssocs; i++) {
+			IAssociation assoc = assocs.get(i);
+			IMember gifter = assoc.getGifter();
+			IMember receiver = assoc.getReceiver();
+			res += "=> " + gifter.getName() + " offers to " + receiver.getName() + "\n";
+		}
+		return res;
+	}
 }

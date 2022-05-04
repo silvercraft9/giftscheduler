@@ -2,7 +2,6 @@ package core.plan;
 
 import java.util.ArrayList;
 
-import core.association.IAssociation;
 import core.member.IMember;
 
 public interface IPlan {
