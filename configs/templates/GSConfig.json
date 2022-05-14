@@ -1,0 +1,16 @@
+{
+	"eventname": "",
+	"members": [
+		{
+			"firstname": "",
+			"address": ""
+		}
+	],
+	"exclusions": [
+		{
+			"gifter": "",
+			"receiver": ""
+		}
+	]
+	
+}
