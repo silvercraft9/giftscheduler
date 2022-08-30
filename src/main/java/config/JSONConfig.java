@@ -15,7 +15,7 @@ import core.member.IMember;
 public class JSONConfig implements IConfig {
 
 	public String getSource() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
