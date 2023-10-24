@@ -1,8 +1,7 @@
 /**
  * 
  */
-package giftscheduler;
-
+package test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -10,16 +9,23 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import core.exclusion.*;
-import core.member.*;
-import core.plan.*;
+import core.exclusion.Exclusion;
+import core.exclusion.ExclusionSet;
+import core.exclusion.IExclusion;
+import core.exclusion.IExclusionSet;
+import core.member.IMember;
+import core.member.IMemberCollection;
+import core.member.SimpleMember;
+import core.member.SimpleMemberCollection;
+import core.plan.IPlan;
+import core.plan.RandomPlan;
 import core.utils.ArrayUtils;
 
 /**
- * @author admin
+ * @author ro6k4
  *
  */
-public class MostAvailablePlanTest {
+public class RandomPlanTest {
 	
 	private IMember alice;
 	private IMember bob;
@@ -30,13 +36,13 @@ public class MostAvailablePlanTest {
 	private IMemberCollection collection;
 	private IExclusionSet exclusions;
 	private IPlan plan;
-	
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		
 		alice = new SimpleMember("alice", "alice@domain.com", 0);
 		bob = new SimpleMember("bob", "bob@domain.com", 0);
 		charlie = new SimpleMember("charlie", "charlie@domain.com", 0);
@@ -65,11 +71,11 @@ public class MostAvailablePlanTest {
 		exclList.add(excl4);
 		exclusions = new ExclusionSet(exclList);
 		
-		plan = new MostAvailablePlan("testPlan", this.collection, this.exclusions);
+		plan = new RandomPlan("testPlan", this.collection, this.exclusions);
 	}
 
 	/**
-	 * Test method for {@link core.plan.MostAvailablePlan#getAvailableReceivers(core.member.IMember)}.
+	 * Test method for {@link core.plan.RandomPlan#getAvailableReceivers(core.member.IMember)}.
 	 */
 	@Test
 	public final void testGetAvailableReceivers() {
@@ -113,7 +119,7 @@ public class MostAvailablePlanTest {
 	}
 
 	/**
-	 * Test method for {@link core.plan.MostAvailablePlan#getAvailableGifters(core.member.IMember)}.
+	 * Test method for {@link core.plan.RandomPlan#getAvailableGifters(core.member.IMember)}.
 	 */
 	@Test
 	public final void testGetAvailableGifters() {
@@ -155,11 +161,11 @@ public class MostAvailablePlanTest {
 		String expectedDaniel = ArrayUtils.memberArrayToString(expectedDanielList);
 		String actualDaniel = ArrayUtils.memberArrayToString(actualDanielList);
 		
-		assertTrue(expectedDaniel.equalsIgnoreCase(actualDaniel));	
+		assertTrue(expectedDaniel.equalsIgnoreCase(actualDaniel));
 	}
 
 	/**
-	 * Test method for {@link core.plan.MostAvailablePlan#generate()}.
+	 * Test method for {@link core.plan.RandomPlan#generate()}.
 	 */
 	@Test
 	public final void testGenerate() {
@@ -168,7 +174,7 @@ public class MostAvailablePlanTest {
 	}
 
 	/**
-	 * Test method for {@link core.plan.MostAvailablePlan#validate()}.
+	 * Test method for {@link core.plan.RandomPlan#validate()}.
 	 */
 	@Test
 	public final void testValidate() {
@@ -176,7 +182,7 @@ public class MostAvailablePlanTest {
 		boolean valid1 = this.plan.validate();
 		assertTrue(valid1);
 		System.out.println(this.plan.toString());
-				
+		
 		this.plan.generate();
 		boolean valid2 = this.plan.validate();
 		assertTrue(valid2);
