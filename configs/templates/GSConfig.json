@@ -1,40 +1,42 @@
 {
-	"eventname": "christmas2022",
-	"members": [
-		{
-			"firstname": "alice",
-			"address": "alice@domain.com"
-		},
-		{
-			"firstname": "bob",
-			"address": "bob@domain.com"
-		},
-		{
-			"firstname": "charlie",
-			"address": "charlie@domain.com"
-		},
-		{
-			"firstname": "daniel",
-			"address": "daniel@domain.com"
-		},
-		{
-			"firstname": "edgar",
-			"address": "edgar@domain.com"
-		}
-	],
-	"exclusions": [
-		{
-			"gifter": "bob",
-			"receiver": "alice"
-		},
-		{
-			"gifter": "bob",
-			"receiver": "daniel"
-		},
-		{
-			"gifter": "edgar",
-			"receiver": "daniel"
-		}
-	]
+	"config": {
 	
+		"eventname": "christmas2022",
+		"members": [
+			{
+				"firstname": "alice",
+				"address": "alice@domain.com"
+			},
+			{
+				"firstname": "bob",
+				"address": "bob@domain.com"
+			},
+			{
+				"firstname": "charlie",
+				"address": "charlie@domain.com"
+			},
+			{
+				"firstname": "daniel",
+				"address": "daniel@domain.com"
+			},
+			{
+				"firstname": "edgar",
+				"address": "edgar@domain.com"
+			}
+		],
+		"exclusions": [
+			{
+				"gifter": "bob",
+				"receiver": "alice"
+			},
+			{
+				"gifter": "bob",
+				"receiver": "daniel"
+			},
+			{
+				"gifter": "edgar",
+				"receiver": "daniel"
+			}
+		]
+	}
 }

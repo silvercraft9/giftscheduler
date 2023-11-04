@@ -18,13 +18,19 @@ public interface IConfig {
 	 * 
 	 * @return the source describing the configuration
 	 */
-	public String getSource();
+	public String getPath();
 	
 	/**
 	 * 
 	 * @return true if the configuration is loaded successfully, false otherwise
 	 */
 	public boolean init();
+	
+	/**
+	 * 
+	 * @return the name of the event 
+	 */
+	public String getEventName();
 	
 	/**
 	 * 
